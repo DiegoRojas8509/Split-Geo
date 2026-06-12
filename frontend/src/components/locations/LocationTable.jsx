@@ -1,4 +1,4 @@
-export default function LocationTable({ locations }) {
+export default function LocationTable({ locations, onSelect }) {
   const points = locations.filter((l) => l.type === 'point');
 
   return (
@@ -22,8 +22,12 @@ export default function LocationTable({ locations }) {
             </tr>
           ) : (
             points.map((l) => (
-              <tr key={l._id} className="border-b border-gray-100 hover:bg-gray-50">
-                <td className="py-2 px-3 text-gray-800">{l.name}</td>
+              <tr
+                key={l._id}
+                onClick={() => onSelect?.({ lat: l.lat, lng: l.lng, ts: Date.now() })}
+                className={`border-b border-gray-100 transition-colors ${onSelect ? 'cursor-pointer hover:bg-indigo-50' : 'hover:bg-gray-50'}`}
+              >
+                <td className="py-2 px-3 text-gray-800 font-medium">{l.name}</td>
                 <td className="py-2 px-3 text-gray-500">{l.description || '—'}</td>
                 <td className="py-2 px-3 text-gray-500">{l.lat?.toFixed(5)}</td>
                 <td className="py-2 px-3 text-gray-500">{l.lng?.toFixed(5)}</td>

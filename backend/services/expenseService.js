@@ -42,13 +42,13 @@ async function create(req, res, next) {
 
 async function update(req, res, next) {
   try {
-    const { title, amount, splitAmong } = req.body;
-    const expense = await Expense.findOneAndUpdate(
-      { _id: req.params.id, paidBy: req.userId },
-      { title, amount, splitAmong },
+    const { title, amount, splitAmong, paidBy } = req.body;
+    const expense = await Expense.findByIdAndUpdate(
+      req.params.id,
+      { title, amount, splitAmong, paidBy },
       { new: true, runValidators: true }
     );
-    if (!expense) return res.status(404).json({ error: 'Expense not found or not authorized' });
+    if (!expense) return res.status(404).json({ error: 'Expense not found' });
     res.json(expense);
   } catch (err) { next(err); }
 }

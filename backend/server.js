@@ -24,7 +24,7 @@ app.use(errorHandler);
 // Serve frontend in production
 const frontendDist = path.join(__dirname, '../frontend/dist');
 app.use(express.static(frontendDist));
-app.get('*', (req, res) => res.sendFile(path.join(frontendDist, 'index.html')));
+app.get('/{*path}', (req, res) => res.sendFile(path.join(frontendDist, 'index.html')));
 
 mongoose
   .connect(process.env.MONGO_URI)

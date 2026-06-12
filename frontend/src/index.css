@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+/* Leaflet fix for Vite */
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; background: #f8f9fa; }
+#root { min-height: 100vh; }

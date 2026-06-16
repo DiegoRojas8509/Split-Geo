@@ -6,11 +6,19 @@ import Dashboard from './pages/Dashboard';
 import GroupDetail from './pages/GroupDetail';
 import MapPage from './pages/MapPage';
 import JoinGroup from './pages/JoinGroup';
+import AdminPanel from './pages/AdminPanel';
 import Navbar from './components/Navbar';
 
 function PrivateRoute({ children }) {
   const { token } = useAuth();
   return token ? children : <Navigate to="/login" replace />;
+}
+
+function AdminRoute({ children }) {
+  const { token, user } = useAuth();
+  if (!token) return <Navigate to="/login" replace />;
+  if (user?.role !== 'admin') return <Navigate to="/" replace />;
+  return children;
 }
 
 function AppLayout({ children }) {
@@ -33,6 +41,7 @@ export default function App() {
           <Route path="/" element={<PrivateRoute><AppLayout><Dashboard /></AppLayout></PrivateRoute>} />
           <Route path="/groups/:id" element={<PrivateRoute><AppLayout><GroupDetail /></AppLayout></PrivateRoute>} />
           <Route path="/map" element={<PrivateRoute><AppLayout><MapPage /></AppLayout></PrivateRoute>} />
+          <Route path="/admin" element={<AdminRoute><AppLayout><AdminPanel /></AppLayout></AdminRoute>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>

@@ -19,6 +19,9 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <Link to="/" className="text-sm text-gray-600 hover:text-gray-900">Grupos</Link>
           <Link to="/map" className="text-sm text-gray-600 hover:text-gray-900">Mapa global</Link>
+          {user?.role === 'admin' && (
+            <Link to="/admin" className="text-sm font-medium text-indigo-600 hover:text-indigo-800">Superusuario</Link>
+          )}
           {user && (
             <span className="text-sm text-gray-500">{user.name}</span>
           )}

@@ -18,8 +18,8 @@ async function register(req, res, next) {
     }
     const passwordHash = await bcrypt.hash(password, 10);
     const user = await User.create({ name, email, passwordHash });
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-    res.status(201).json({ token, user: { _id: user._id, name: user.name, email: user.email } });
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    res.status(201).json({ token, user: { _id: user._id, name: user.name, email: user.email, role: user.role } });
   } catch (err) { next(err); }
 }
 
@@ -43,8 +43,8 @@ async function login(req, res, next) {
       err.status = 401;
       return next(err);
     }
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-    res.json({ token, user: { _id: user._id, name: user.name, email: user.email } });
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    res.json({ token, user: { _id: user._id, name: user.name, email: user.email, role: user.role } });
   } catch (err) { next(err); }
 }
 
